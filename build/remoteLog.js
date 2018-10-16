@@ -97,6 +97,11 @@ let html = `
     }
 
     function connect() {
+        if (window.socket) {
+            try {
+                window.socket.close();
+            } catch(e) {}
+        }
         window.socket = new WebSocket('ws://${hostname}:${port}');
         // Connection opened
         window.socket.addEventListener('open', function (event) {

@@ -1,21 +1,30 @@
-// import WeexAPI from './WeexAPI'
+import WeexAPI from './WeexAPI';
 
 // 屏幕宽度(dp), web端写死, 不推荐使用
 export const SCREEN_WIDTH_DP = dp(weex.config.viewport || 375);
 
-// 屏幕宽度(px)
-export const SCREEN_WIDTH_PX = px(weex.config.env.deviceWidth);
+// 屏幕宽度(px), Web端写死750px
+export const SCREEN_WIDTH_PX = weex.config.env.platform === 'Web' ? '750px' : px(weex.config.env.deviceWidth);
+
+let viewportSize = null;
+export async function getViewportSize() {
+    if (!viewportSize) {
+        let rect = await WeexAPI.getComponentRect('viewport');
+        viewportSize = { height: dp(rect.height), width: dp(rect.width) };
+    }
+    return viewportSize;
+}
 
 // 逻辑像素与实际物理像素比
 export const PIXEL_RATIO = weex.config.env.platform === 'Web' ? 2 : Number(weex.config.env.scale);
 
-// 对应web上html根节点的font-size
-export const REM_RATIO = (weex.config.viewport || 375) * 2 / 37.5;
+// 对应web上html根节点的font-size, 形成1rem等于iphone6设计稿中的1px
+export const REM_RATIO = (weex.config.viewport || 375) * 0.5 / 375;
 
-/* 带单位数值转换为实际显示的数值, 实际像素值输出是weex的px单位,等于ExWeex的dp单位
-dp: 逻辑像素
-px: 物理像素
-rem: 相对于物理设备宽度的等比缩放像素
+/* 带单位数值转换为实际显示的数值, 实际像素值输出是weex的px单位,等于EasyWeex的dp单位
+* dp: 逻辑像素
+* px: 物理像素
+* rem: 相对于物理设备宽度的等比缩放像素
 */
 export function convertUnit(value) {
     if (/^([0-9]|\.)*?px$/.test(value)) {
@@ -63,8 +72,11 @@ export function getUnit(val) {
 // 提供对各种单位的四则运算能力
 export function calc(exp) {
     let parsedExp = exp.replace(/(([0-9]([0-9]|\.)*?[0-9]|[0-9]))(rem|px|dp)/g, val => getVal(toDP(val)));
-    console.log(parsedExp);
     return dp(eval(parsedExp));
+}
+
+export function transformStr(str) {
+    return str.replace(/(([0-9]([0-9]|\.)*?[0-9]|[0-9]))(rem|px|dp)/g, val => convertUnit(val));
 }
 
 // 注入到vue的methods方法集
@@ -75,7 +87,9 @@ export const methods = {
     getVal,
     getUnit,
     toDP,
-    calc
+    calc,
+    getViewportSize,
+    transformStr
 };
 
 // 注入到vue的computed方法集

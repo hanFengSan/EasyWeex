@@ -72,6 +72,21 @@ function fontSize(val) {
     return [{ name: 'fontSize', value: Math.round(Dimens.methods.getVal(Dimens.toDP(val))) + 'dp' }];
 }
 
+function transform(val) {
+    return [{ name: 'transform', value: Dimens.methods.transformStr(val) }];
+}
+
+function transformOrigin(val) {
+    return [{ name: 'transformOrigin', value: Dimens.methods.transformStr(val) }];
+}
+
+function transition(val) {
+    return [{ name: 'transition', value: Dimens.methods.transformStr(val) }];
+}
+
+/*
+* 样式处理
+*/
 export default function polyfillStyle(name, value) {
     let result = [];
     if (value === null || value === undefined) {
@@ -104,6 +119,15 @@ export default function polyfillStyle(name, value) {
             break;
         case 'fontSize':
             result = fontSize(value);
+            break;
+        case 'transform':
+            result = transform(value);
+            break;
+        case 'transformOrigin':
+            result = transformOrigin(value);
+            break;
+        case 'transition':
+            result = transition(value);
             break;
         default:
             result.push({ name, value });
