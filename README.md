@@ -283,7 +283,7 @@ async test() {
 ```
 
 ## 便捷的weex API封装以及支持
-1. alert方法:
+### alert方法
 弹窗提示消息
 alert(info: String|Object, okTitle: String, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
@@ -297,7 +297,7 @@ this.alert('info', 'OK', 3000); // 弹窗提示消息, 持续3000ms
 import { WeeAPI } from 'EasyWeex';
 WeexAPI.alert(...);
 ```
-2. toast方法:
+### toast方法
 toast提示消息
 toast(info: String|Object, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
@@ -310,7 +310,7 @@ this.toast('info', 3000); // toast提示消息, 持续3000ms
 import { WeeAPI } from 'EasyWeex';
 WeexAPI.toast(...);
 ```
-3. getComponentRect方法:
+### getComponentRect方法
 获取组件的尺寸
 getComponentRect(ref)
 返回值: Promise<Object>, Object为{ height, width }. 纯数值, 对应dp单位.
@@ -318,7 +318,7 @@ getComponentRect(ref)
 // Vue文件
 await this.getComponentRect方法(this.$refs.container);
 ```
-4. noWeb方法:
+### noWeb方法
 非Web平台执行方法.
 noWeb(fn)
 返回值: Void
@@ -334,7 +334,7 @@ WeeAPI.noWeb(() => {
     ... // 非Web平台则执行
 });
 ```
-5. inWeb/inAndroid/inIOS方法:
+### inWeb/inAndroid/inIOS方法
 对应平台执行方法.
 inWeb(fn)/inAndroid(fn)/inIOS(fn)
 返回值: Void
@@ -356,7 +356,7 @@ WeeAPI.inIOS(() => {
 });
 ```
 **注意: 也可以通过this.global.isAndroid/this.global.isIOS/this.global.isWeb这三个Bool值来区分平台**
-6. fetch方法
+### fetch方法
 promise化的stream.fetch方法封装, 如果传入的option没有timeout设置, 则默认设置为15000ms. 自动超时.
 fetch(option) // option对应weex的stream module的fetch方法的option
 ```JavaScript
@@ -366,7 +366,7 @@ this.fetch(option);
 import { WeeAPI } from 'EasyWeex';
 WeexAPI.fetch(option);
 ```
-7. autoFetch方法
+### autoFetch方法
 fetch方法的封装, 自动超时重试, 提供更可靠的网络服务.
 autoFetch(option, retryTimes = 2) // option和fetch方法的一致, retryTimes为自动重试次数, 默认两次
 ```JavaScript
@@ -378,7 +378,7 @@ import { WeeAPI } from 'EasyWeex';
 WeexAPI.autoFetch(option);
 WeexAPI.autoFetch(option, 5);
 ```
-8. getEl方法
+### getEl方法
 获取元素, 提供给bindingX使用. bindingX不能直接对着this.$refs.xxx的变量作用, 所以提供一层封装.
 getEl(ref)
 ```
@@ -388,7 +388,7 @@ this.getEl(this.$refs.xxx);
 import { WeeAPI } from 'EasyWeex';
 WeexAPI.getEl(this.$refs.xxx);
 ```
-9. listenGlobalEvent方法
+### listenGlobalEvent方法
 添加全局事件的监听, 主要是方便操作.
 listenGlobalEvent(eventName, callback = () => {})
 ```
