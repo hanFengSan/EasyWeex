@@ -23,7 +23,7 @@ export default {
 ```
 
 ## 样式编写示例
-```
+```Vue
 <template>
     <div :style="styles.container">
         <text :style="styles.text"></text>
