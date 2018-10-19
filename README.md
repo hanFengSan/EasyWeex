@@ -27,6 +27,7 @@ export default {
 <template>
     <div :style="styles.container">
         <text :style="styles.text"></text>
+        <text :style="styles.colorText('red')"></text>
     </div>
 </template>
 
@@ -45,7 +46,10 @@ export default {
                 },
                 text: {
                     color: 'red'
-                }
+                },
+                colorText: (color) => ({
+                    color
+                })
             }
         }
     }
@@ -108,6 +112,35 @@ styleSheet: {
     <div :style="styles.$of({ marginTop: '200rem' })"></div>
 </template>
 ```
+
+### 样式方法
+除了定义Object外, 还可以定义Function, 通过传参, 达到动态调整样式的功能. 比如在一个列表项的渲染中需要通过index来判断具体样式时, 这个就很有用, 例如通过index来判断标题颜色:
+```
+<template>
+    <div :style="styles.list" v-for="(item, index) for array">
+        <text :style="styles.colorTitle(index)">{{ item.title }}</text>
+    </div>
+</template>
+
+<script>
+import EasyWeex from 'EasyWeex';
+
+export default {
+    mixins: [EasyWeex()],
+    computed: {
+        styleSheet: {
+            return {
+                colorTitle: (index) => ({
+                    color: index === 0 ? 'red' : 'green'
+                })
+            }
+        }
+    }
+}
+</script>
+
+```
+
 ### 样式混合
 多种样式, 可通过`styles.$merge`进行混合:
 ```
