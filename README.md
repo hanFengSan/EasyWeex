@@ -236,7 +236,7 @@ await this.saveItem('key', value); // value值不必是字符串, EasyWeex会序
 await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
 ```
 JS文件下:
-```
+```JavaScript
 import { Storage } from 'EasyWeex';
 await this.saveItem('key', value); // value值不必是字符串, EasyWeex会序列化Object
 await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
@@ -248,7 +248,7 @@ await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以J
 1. throttle方法
 函数式节流的实现, 默认的节流间隔是300ms
 throttle(fn)
-```Vue
+```JavaScript
 vue文件:
 import { default as EasyWeex, Util } from 'EasyWeex';
 methods: {
@@ -265,7 +265,7 @@ Util.throttle(...);
 ```
 2. sleep方法
 提供线程sleep的模拟, 本质上是timeout的语法糖, 最好是在async/await中编写.
-```Vue
+```JavaScript
 vue文件:
 import { default as EasyWeex, Util } from 'EasyWeex';
 methods: {
@@ -288,7 +288,7 @@ async test() {
 alert(info: String|Object, okTitle: String, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
 返回值: void
-```Vue
+```JavaScript
 // vue文件
 this.alert('info'); // 弹窗提示消息
 this.alert('info', 'OK'); 确认按钮的文本为OK
@@ -302,7 +302,7 @@ toast提示消息
 toast(info: String|Object, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
 返回值: void
-```Vue
+```JavaScript
 // Vue文件
 this.toast('info'); // toast提示消息
 this.toast('info', 3000); // toast提示消息, 持续3000ms
@@ -314,7 +314,7 @@ WeexAPI.toast(...);
 获取组件的尺寸
 getComponentRect(ref)
 返回值: Promise<Object>, Object为{ height, width }. 纯数值, 对应dp单位.
-```Vue
+```JavaScript
 // Vue文件
 await this.getComponentRect方法(this.$refs.container);
 ```
