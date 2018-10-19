@@ -11,7 +11,7 @@
 
 ## 使用
 安装:
-```
+```JavaScript
 # bash
 npm install https://github.com/hanFengSan/EasyWeex.git
 # vue文件
@@ -77,21 +77,21 @@ EasyWeex在底层会将三种单位给转为dp.
 **注意: 字体的尺寸fontSize在android上无法支持小数, 由于EasyWeex底层是转化为dp, 所以实际上设置的fontSize的对应的dp值的四舍五入值**
 ### 方便样式计算的全局变量
 以下变量在vue文件中, 是直接注入到this变量中, 可以直接使用:
-```
+```JavaScript
 this.SCREEN_WIDTH_DP // 屏幕宽度, dp单位, 例:'365dp'
 this.SCREEN_WIDTH_PX // 屏幕宽度, px单位, 例: '750px'
 this.global.$viewportSize.height // weex渲染面积的高度, dp单位. 在渲染出weex后获取, 存在延迟, 但这个是vue watch了的值, 可以直接用于computed中, 获取后自动刷新.
 this.global.$viewportSize.width // weex渲染面积的宽度, dp单位, 异步, 同this.global.$viewportSize.height
 ```
  在js文件中需要使用的话, 需要import:
- ```
+ ```JavaScript
 import { Dimens } from 'EasyWeex';
 
 console.log(this.SCREEN_WIDTH_DP);
  ```
  ### 尺寸运算
  `this.calc`提供类似css3中calc的计算能力, 通过编写表达式, 数值更新时, 自动变化. 支持简单的四则运算和单位混合运算, 示例:
- ```
+ ```JavaScript
 styleSheet: {
     return {
         container: {
@@ -107,7 +107,7 @@ styleSheet: {
  ```
 ### 字面量声明
 通过`styles.$of`方法, 实现字面量声明EasyWeex的样式.
-```
+```Vue
 <template>
     <div :style="styles.$of({ marginTop: '200rem' })"></div>
 </template>
@@ -115,7 +115,7 @@ styleSheet: {
 
 ### 样式方法
 除了定义Object外, 还可以定义Function, 通过传参, 达到动态调整样式的功能. 比如在一个列表项的渲染中需要通过index来判断具体样式时, 这个就很有用, 例如通过index来判断标题颜色:
-```
+```Vue
 <template>
     <div :style="styles.list" v-for="(item, index) for array">
         <text :style="styles.colorTitle(index)">{{ item.title }}</text>
@@ -143,7 +143,7 @@ export default {
 
 ### 样式混合
 多种样式, 可通过`styles.$merge`进行混合:
-```
+```Vue
 <template>
     <div :style="styles.$merge(styles.test, styles.test2)"></div> // 混合test和test2的样式
 </template>
@@ -151,7 +151,7 @@ export default {
 ### 支持的样式简写
 * 支持background-color简写为background
 * 支持margin, padding的简写, 例: 
-```
+```JavaScript
 styleSheet: {
     return {
         container: {
@@ -163,7 +163,7 @@ styleSheet: {
 }
 ```
 * 支持border的简写, 例:
-```
+```JavaScript
 styleSheet: {
     return {
         container: {
@@ -179,7 +179,7 @@ styleSheet: {
 
 ## 多语言支持
 EasyWeex内置了多语言支持, 且支持模板替换, 使用示例:
-```
+```Vue
 // template中
 <text>{{ $t('MY_LESSONS') }}</test>
 <text>{{ $t('LESSON_COUNT', { num: 4 }) }}</test>
@@ -189,7 +189,7 @@ this.$t('LESSON_COUNT', { num: 4 });
 ```
 ### 多语言文件
 使用EasyWeex的多语言支持, 首先得编写一个js多语言文件:
-```
+```JavaScript
 // 示例js文件:
 export default {
     $default: 'en', // 默认的语言种类key
@@ -214,7 +214,7 @@ export default {
 ```
 EasyWeex中引入:
 
-```
+```JavaScript
 // vue文件
 import EasyWeex from 'EasyWeex';
 import langFile from 'lang.js'; // 编写的js多语言文件
@@ -231,7 +231,7 @@ export default {
 ## storage优化
 EasyWeex提供Promise化的storage操作:
 vue文件下:
-```
+```JavaScript
 await this.saveItem('key', value); // value值不必是字符串, EasyWeex会序列化Object
 await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
 ```
@@ -248,7 +248,7 @@ await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以J
 1. throttle方法
 函数式节流的实现, 默认的节流间隔是300ms
 throttle(fn)
-```
+```Vue
 vue文件:
 import { default as EasyWeex, Util } from 'EasyWeex';
 methods: {
@@ -265,7 +265,7 @@ Util.throttle(...);
 ```
 2. sleep方法
 提供线程sleep的模拟, 本质上是timeout的语法糖, 最好是在async/await中编写.
-```
+```Vue
 vue文件:
 import { default as EasyWeex, Util } from 'EasyWeex';
 methods: {
@@ -288,7 +288,7 @@ async test() {
 alert(info: String|Object, okTitle: String, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
 返回值: void
-```
+```Vue
 // vue文件
 this.alert('info'); // 弹窗提示消息
 this.alert('info', 'OK'); 确认按钮的文本为OK
@@ -302,7 +302,7 @@ toast提示消息
 toast(info: String|Object, duration: Number)
 info为字符串或Object格式, 如果是Object, 则会自动序列化, 并添加一些回车字符改善显示效果.
 返回值: void
-```
+```Vue
 // Vue文件
 this.toast('info'); // toast提示消息
 this.toast('info', 3000); // toast提示消息, 持续3000ms
@@ -314,7 +314,7 @@ WeexAPI.toast(...);
 获取组件的尺寸
 getComponentRect(ref)
 返回值: Promise<Object>, Object为{ height, width }. 纯数值, 对应dp单位.
-```
+```Vue
 // Vue文件
 await this.getComponentRect方法(this.$refs.container);
 ```
@@ -322,7 +322,7 @@ await this.getComponentRect方法(this.$refs.container);
 非Web平台执行方法.
 noWeb(fn)
 返回值: Void
-```
+```JavaScript
 // vue文件
 
 this.noWeb(() => {
@@ -338,7 +338,7 @@ WeeAPI.noWeb(() => {
 对应平台执行方法.
 inWeb(fn)/inAndroid(fn)/inIOS(fn)
 返回值: Void
-```
+```JavaScript
 // vue文件
 this.noWeb(() => {
     ... // 非Web平台则执行
@@ -359,7 +359,7 @@ WeeAPI.inIOS(() => {
 6. fetch方法
 promise化的stream.fetch方法封装, 如果传入的option没有timeout设置, 则默认设置为15000ms. 自动超时.
 fetch(option) // option对应weex的stream module的fetch方法的option
-```
+```JavaScript
 // vue文件
 this.fetch(option);
 // JS文件
@@ -369,7 +369,7 @@ WeexAPI.fetch(option);
 7. autoFetch方法
 fetch方法的封装, 自动超时重试, 提供更可靠的网络服务.
 autoFetch(option, retryTimes = 2) // option和fetch方法的一致, retryTimes为自动重试次数, 默认两次
-```
+```JavaScript
 // vue文件
 this.autoFetch(option);
 this.autoFetch(option, 5);
@@ -391,7 +391,7 @@ WeexAPI.getEl(this.$refs.xxx);
 9. listenGlobalEvent方法
 添加全局事件的监听, 主要是方便操作.
 listenGlobalEvent(eventName, callback = () => {})
-```
+```JavaScript
 // vue文件
 this.listenGlobalEvent('event', () => { console.log('event) });
 // JS文件
@@ -414,7 +414,7 @@ info/warn/error(...args) 参数为一下系列字符串或者Object, Object会�
 返回值: Void
 info/warn/error的打印颜色各不一样.
 **注意: remoteDebug.js开启的服务器的域名/ip必须和weex的bundleUrl的一致, 否则接受不到日志消息**
-```
+```JavaScript
 // Vue文件
 this.info('info')
 this.warn('info')
