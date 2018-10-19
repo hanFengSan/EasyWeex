@@ -391,7 +391,7 @@ WeexAPI.getEl(this.$refs.xxx);
 9. listenGlobalEvent方法
 添加全局事件的监听, 主要是方便操作.
 listenGlobalEvent(eventName, callback = () => {})
-```JavaScript
+```
 // vue文件
 this.listenGlobalEvent('event', () => { console.log('event) });
 // JS文件
