@@ -233,13 +233,13 @@ EasyWeex提供Promise化的storage操作:
 vue文件下:
 ```JavaScript
 await this.saveItem('key', value); // value值不必是字符串, EasyWeex会序列化Object
-await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
+let value = await this.loadItem('key'); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
 ```
 JS文件下:
 ```JavaScript
 import { Storage } from 'EasyWeex';
 await this.saveItem('key', value); // value值不必是字符串, EasyWeex会序列化Object
-await this.loadItem('key', value); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
+let value = await this.loadItem('key'); // value值会尝试JSON.parse, 如果可以JSON.parse, 则会返回对应的结果
 ```
 注意, loadItem时, 如果不存在该key, 会返回undefined, 而不是错误.
 
